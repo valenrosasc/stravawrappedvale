@@ -1,0 +1,26 @@
+{
+  "name": "strava-wrapped",
+  "version": "1.0.0",
+  "description": "Aplicación web que genera un resumen visual tipo Wrapped con datos de Strava",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "strava",
+    "wrapped",
+    "fitness",
+    "api"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "axios": "^1.6.2",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

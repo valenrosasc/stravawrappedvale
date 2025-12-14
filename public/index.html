@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Strava Wrapped 2025</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="login-screen" class="screen active">
+        <div class="login-container">
+            <h1>🏃‍♂️ Strava Wrapped 2025</h1>
+            <p class="subtitle">Descubre tu año en Strava</p>
+            <button id="login-btn" class="strava-btn">
+                <span>Conectar con Strava</span>
+            </button>
+            <p class="info-text">Tu resumen personalizado del año</p>
+        </div>
+    </div>
+
+    <div id="loading-screen" class="screen">
+        <div class="loading-container">
+            <div class="spinner"></div>
+            <p>Analizando tus actividades...</p>
+        </div>
+    </div>
+
+    <div id="wrapped-screen" class="screen">
+        <div class="slide-container">
+            <div class="slide active" data-slide="0">
+                <h2>Tu año en Strava</h2>
+                <p class="year">2025</p>
+                <p class="name" id="athlete-name"></p>
+            </div>
+
+            <div class="slide" data-slide="1">
+                <h2>Actividades completadas</h2>
+                <p class="big-stat" id="total-activities">0</p>
+                <p class="stat-label">actividades</p>
+            </div>
+
+            <div class="slide" data-slide="2">
+                <h2>Distancia total</h2>
+                <p class="big-stat" id="total-distance">0</p>
+                <p class="stat-label">kilómetros recorridos</p>
+            </div>
+
+            <div class="slide" data-slide="3">
+                <h2>Tiempo en movimiento</h2>
+                <p class="big-stat" id="total-time">0</p>
+                <p class="stat-label">horas de actividad</p>
+            </div>
+
+            <div class="slide" data-slide="4">
+                <h2>Elevación ganada</h2>
+                <p class="big-stat" id="total-elevation">0</p>
+                <p class="stat-label">metros de ascenso</p>
+            </div>
+
+            <div class="slide" data-slide="5">
+                <h2>Tu actividad más larga</h2>
+                <p class="big-stat" id="longest-activity">0</p>
+                <p class="stat-label" id="longest-activity-type">km</p>
+                <p class="date-label" id="longest-activity-date"></p>
+            </div>
+
+            <div class="slide" data-slide="6">
+                <h2>Días activos</h2>
+                <p class="big-stat" id="active-days">0</p>
+                <p class="stat-label">días en movimiento</p>
+            </div>
+
+            <div class="slide" data-slide="7">
+                <h2>Tu deporte favorito</h2>
+                <p class="big-stat sport-emoji" id="favorite-sport">🏃‍♂️</p>
+                <p class="stat-label" id="favorite-sport-name">Running</p>
+                <p class="date-label" id="favorite-sport-count"></p>
+            </div>
+
+            <div class="slide" data-slide="8">
+                <h2>Mes más activo</h2>
+                <p class="big-stat" id="best-month">Enero</p>
+                <p class="stat-label" id="best-month-count">0 actividades</p>
+            </div>
+
+            <div class="slide" data-slide="9">
+                <h2>¡Increíble año!</h2>
+                <p class="summary" id="final-summary">Has sido imparable este año</p>
+                <button id="share-btn" class="strava-btn">Compartir mi Wrapped</button>
+                <button id="restart-btn" class="secondary-btn">Ver de nuevo</button>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button id="prev-btn" class="nav-btn">←</button>
+            <div class="dots" id="dots-container"></div>
+            <button id="next-btn" class="nav-btn">→</button>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
