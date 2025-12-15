@@ -10,6 +10,18 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Endpoint de diagnóstico (ELIMINAR en producción)
+app.get('/api/debug', (req, res) => {
+    res.json({
+        client_id_exists: !!process.env.STRAVA_CLIENT_ID,
+        client_id_length: process.env.STRAVA_CLIENT_ID?.length || 0,
+        client_secret_exists: !!process.env.STRAVA_CLIENT_SECRET,
+        client_secret_length: process.env.STRAVA_CLIENT_SECRET?.length || 0,
+        node_env: process.env.NODE_ENV,
+        all_env_keys: Object.keys(process.env).filter(k => k.startsWith('STRAVA'))
+    });
+});
+
 // Endpoint para intercambiar el código por un token
 app.post('/api/token', async (req, res) => {
     const { code } = req.body;
