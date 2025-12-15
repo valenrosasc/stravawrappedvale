@@ -15,11 +15,37 @@ app.get('/api/debug', (req, res) => {
     res.json({
         client_id_exists: !!process.env.STRAVA_CLIENT_ID,
         client_id_length: process.env.STRAVA_CLIENT_ID?.length || 0,
+        client_id_value: process.env.STRAVA_CLIENT_ID,
         client_secret_exists: !!process.env.STRAVA_CLIENT_SECRET,
         client_secret_length: process.env.STRAVA_CLIENT_SECRET?.length || 0,
+        client_secret_first5: process.env.STRAVA_CLIENT_SECRET?.substring(0, 5),
+        client_secret_last5: process.env.STRAVA_CLIENT_SECRET?.substring(process.env.STRAVA_CLIENT_SECRET.length - 5),
         node_env: process.env.NODE_ENV,
         all_env_keys: Object.keys(process.env).filter(k => k.startsWith('STRAVA'))
     });
+});
+
+// Test de conexión con Strava
+app.get('/api/test-strava', async (req, res) => {
+    try {
+        const testCode = 'test_code_invalid'; // Código inválido a propósito
+        const response = await axios.post('https://www.strava.com/oauth/token', {
+            client_id: process.env.STRAVA_CLIENT_ID,
+            client_secret: process.env.STRAVA_CLIENT_SECRET,
+            code: testCode,
+            grant_type: 'authorization_code'
+        });
+        res.json({ success: true, message: 'Conexión OK' });
+    } catch (error) {
+        res.json({
+            success: false,
+            error_message: error.response?.data?.message || error.message,
+            error_details: error.response?.data || {},
+            status: error.response?.status,
+            client_id_sent: process.env.STRAVA_CLIENT_ID,
+            client_secret_length: process.env.STRAVA_CLIENT_SECRET?.length
+        });
+    }
 });
 
 // Endpoint para intercambiar el código por un token
