@@ -5,7 +5,7 @@
 const CONFIG = {
     // ID de tu aplicación de Strava
     // Obténlo en: https://www.strava.com/settings/api
-    CLIENT_ID: 'TU_CLIENT_ID',
+    CLIENT_ID: '190207',
     
     // URL de redirección (debe coincidir con la configurada en Strava)
     // Para producción, usa tu URL de Vercel/Render/Railway
