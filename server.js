@@ -14,8 +14,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.post('/api/token', async (req, res) => {
     const { code } = req.body;
     
+    console.log('=== TOKEN EXCHANGE REQUEST ===');
+    console.log('Code received:', code ? 'YES' : 'NO');
+    console.log('STRAVA_CLIENT_ID:', process.env.STRAVA_CLIENT_ID ? 'SET' : 'NOT SET');
+    console.log('STRAVA_CLIENT_SECRET:', process.env.STRAVA_CLIENT_SECRET ? 'SET' : 'NOT SET');
+    
     if (!code) {
         return res.status(400).json({ error: 'Código no proporcionado' });
+    }
+    
+    if (!process.env.STRAVA_CLIENT_ID || !process.env.STRAVA_CLIENT_SECRET) {
+        console.error('ERROR: Variables de entorno no configuradas');
+        return res.status(500).json({ error: 'Variables de entorno no configuradas' });
     }
     
     try {
