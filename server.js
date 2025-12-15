@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Endpoint para intercambiar el código por un token
 app.post('/api/token', async (req, res) => {
@@ -38,11 +38,6 @@ app.post('/api/token', async (req, res) => {
             details: error.response?.data?.message || error.message
         });
     }
-});
-
-// Servir el frontend
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.listen(PORT, () => {
