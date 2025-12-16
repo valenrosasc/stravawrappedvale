@@ -22,7 +22,6 @@ const CONFIG = {
     // Año a analizar
     YEAR: 2025
 };
-
 // No modificar estas URLs
 CONFIG.AUTH_URL = `https://www.strava.com/oauth/authorize?client_id=${CONFIG.CLIENT_ID}&response_type=code&redirect_uri=${CONFIG.REDIRECT_URI}&approval_prompt=force&scope=${CONFIG.SCOPE}`;
 CONFIG.TOKEN_URL = 'https://www.strava.com/oauth/token';
