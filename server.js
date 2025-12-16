@@ -58,10 +58,13 @@ app.post('/api/token', async (req, res) => {
     const clientSecret = process.env.STRAVA_CLIENT_SECRET?.trim() || 'caa32f7b2dc53a69d0d622af3dc0fb3ed3c2881d';
     
     console.log('=== TOKEN EXCHANGE REQUEST ===');
-    console.log('Code received:', code ? 'YES' : 'NO');
-    console.log('STRAVA_CLIENT_ID:', clientId ? 'SET' : 'NOT SET');
-    console.log('STRAVA_CLIENT_SECRET:', clientSecret ? 'SET' : 'NOT SET');
-    console.log('Client Secret length:', clientSecret?.length);
+    console.log('Authorization code received:', code);
+    console.log('Code length:', code?.length);
+    console.log('client_id:', clientId);
+    console.log('client_id_length:', clientId?.length);
+    console.log('client_secret_length:', clientSecret?.length);
+    console.log('client_secret (first 10 chars):', clientSecret?.substring(0, 10));
+    console.log('client_secret (last 10 chars):', clientSecret?.substring(clientSecret.length - 10));
     
     if (!code) {
         return res.status(400).json({ error: 'Código no proporcionado' });
@@ -73,6 +76,11 @@ app.post('/api/token', async (req, res) => {
     }
     
     try {
+        console.log('Sending request to Strava with:');
+        console.log('- client_id:', clientId);
+        console.log('- code:', code);
+        console.log('- grant_type: authorization_code');
+        
         const response = await axios.post('https://www.strava.com/oauth/token', {
             client_id: clientId,
             client_secret: clientSecret,
@@ -80,16 +88,23 @@ app.post('/api/token', async (req, res) => {
             grant_type: 'authorization_code'
         });
         
+        console.log('✅ SUCCESS! Token received from Strava');
+        
         res.json({
             access_token: response.data.access_token,
             refresh_token: response.data.refresh_token,
             expires_at: response.data.expires_at
         });
     } catch (error) {
-        console.error('Error al intercambiar token:', error.response?.data || error.message);
+        console.error('❌ ERROR from Strava API:');
+        console.error('Status:', error.response?.status);
+        console.error('Response data:', JSON.stringify(error.response?.data, null, 2));
+        console.error('Error message:', error.message);
+        
         res.status(500).json({ 
             error: 'Error al obtener token de acceso',
-            details: error.response?.data?.message || error.message
+            details: error.response?.data?.message || error.message,
+            strava_error: error.response?.data
         });
     }
 });
