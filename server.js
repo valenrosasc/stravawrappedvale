@@ -52,24 +52,29 @@ app.get('/api/test-strava', async (req, res) => {
 app.post('/api/token', async (req, res) => {
     const { code } = req.body;
     
+    // Limpiar variables de entorno de espacios y saltos de línea
+    const clientId = process.env.STRAVA_CLIENT_ID?.trim();
+    const clientSecret = process.env.STRAVA_CLIENT_SECRET?.trim();
+    
     console.log('=== TOKEN EXCHANGE REQUEST ===');
     console.log('Code received:', code ? 'YES' : 'NO');
-    console.log('STRAVA_CLIENT_ID:', process.env.STRAVA_CLIENT_ID ? 'SET' : 'NOT SET');
-    console.log('STRAVA_CLIENT_SECRET:', process.env.STRAVA_CLIENT_SECRET ? 'SET' : 'NOT SET');
+    console.log('STRAVA_CLIENT_ID:', clientId ? 'SET' : 'NOT SET');
+    console.log('STRAVA_CLIENT_SECRET:', clientSecret ? 'SET' : 'NOT SET');
+    console.log('Client Secret length:', clientSecret?.length);
     
     if (!code) {
         return res.status(400).json({ error: 'Código no proporcionado' });
     }
     
-    if (!process.env.STRAVA_CLIENT_ID || !process.env.STRAVA_CLIENT_SECRET) {
+    if (!clientId || !clientSecret) {
         console.error('ERROR: Variables de entorno no configuradas');
         return res.status(500).json({ error: 'Variables de entorno no configuradas' });
     }
     
     try {
         const response = await axios.post('https://www.strava.com/oauth/token', {
-            client_id: process.env.STRAVA_CLIENT_ID,
-            client_secret: process.env.STRAVA_CLIENT_SECRET,
+            client_id: clientId,
+            client_secret: clientSecret,
             code: code,
             grant_type: 'authorization_code'
         });
