@@ -53,8 +53,9 @@ app.post('/api/token', async (req, res) => {
     const { code } = req.body;
     
     // Limpiar variables de entorno de espacios y saltos de línea
-    const clientId = process.env.STRAVA_CLIENT_ID?.trim();
-    const clientSecret = process.env.STRAVA_CLIENT_SECRET?.trim();
+    // Si la variable tiene el salto de línea, usar el valor hardcodeado temporalmente
+    const clientId = process.env.STRAVA_CLIENT_ID?.trim() || '190207';
+    const clientSecret = process.env.STRAVA_CLIENT_SECRET?.trim() || 'caa32f7b2dc53a69d0d622af3dc0fb3ed3c2881d';
     
     console.log('=== TOKEN EXCHANGE REQUEST ===');
     console.log('Code received:', code ? 'YES' : 'NO');
