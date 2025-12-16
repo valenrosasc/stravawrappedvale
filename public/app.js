@@ -17,6 +17,9 @@ function initApp() {
     const code = urlParams.get('code');
     
     if (code) {
+        // Limpiar la URL para evitar reusar el código
+        window.history.replaceState({}, document.title, window.location.pathname);
+        
         // Tenemos código de autorización, intercambiarlo por token
         showScreen('loading-screen');
         exchangeToken(code);
