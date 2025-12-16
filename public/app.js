@@ -58,11 +58,13 @@ async function exchangeToken(code) {
             body: JSON.stringify({ code })
         });
         
-        if (!response.ok) {
-            throw new Error('Error al obtener token');
-        }
-        
         const data = await response.json();
+        
+        if (!response.ok) {
+            console.error('Error details from server:', data);
+            alert('Error de Strava: ' + (data.details || data.error || 'Error desconocido') + '\n\nDetalles: ' + JSON.stringify(data.strava_error || {}));
+            throw new Error(data.details || data.error || 'Error al obtener token');
+        }
         accessToken = data.access_token;
         
         // Obtener datos del atleta y actividades
