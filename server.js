@@ -12,14 +12,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Endpoint de diagnóstico (ELIMINAR en producción)
 app.get('/api/debug', (req, res) => {
+    const rawClientId = process.env.STRAVA_CLIENT_ID || '';
+    const rawClientSecret = process.env.STRAVA_CLIENT_SECRET || '';
+    const cleanClientId = rawClientId.replace(/[\r\n]/g, '').trim();
+    const cleanClientSecret = rawClientSecret.replace(/[\r\n]/g, '').trim();
+    
     res.json({
-        client_id_exists: !!process.env.STRAVA_CLIENT_ID,
-        client_id_length: process.env.STRAVA_CLIENT_ID?.length || 0,
-        client_id_value: process.env.STRAVA_CLIENT_ID,
-        client_secret_exists: !!process.env.STRAVA_CLIENT_SECRET,
-        client_secret_length: process.env.STRAVA_CLIENT_SECRET?.length || 0,
-        client_secret_first5: process.env.STRAVA_CLIENT_SECRET?.substring(0, 5),
-        client_secret_last5: process.env.STRAVA_CLIENT_SECRET?.substring(process.env.STRAVA_CLIENT_SECRET.length - 5),
+        raw_client_id_length: rawClientId.length,
+        raw_client_secret_length: rawClientSecret.length,
+        clean_client_id: cleanClientId,
+        clean_client_id_length: cleanClientId.length,
+        clean_client_secret_length: cleanClientSecret.length,
+        clean_client_secret_first10: cleanClientSecret.substring(0, 10),
+        clean_client_secret_last10: cleanClientSecret.substring(cleanClientSecret.length - 10),
         node_env: process.env.NODE_ENV,
         all_env_keys: Object.keys(process.env).filter(k => k.startsWith('STRAVA'))
     });
