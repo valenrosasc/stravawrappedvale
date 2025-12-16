@@ -15,10 +15,26 @@ function initApp() {
     // Verificar si venimos del redirect de Strava
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
+    const error = urlParams.get('error');
+    
+    // Si hay un error de Strava (usuario rechazó autorización)
+    if (error) {
+        alert('Autorización cancelada. Necesitas autorizar la aplicación para continuar.');
+        window.location.href = window.location.pathname; // Limpiar URL
+        return;
+    }
     
     if (code) {
-        // Limpiar la URL para evitar reusar el código
-        window.history.replaceState({}, document.title, window.location.pathname);
+        // Verificar si ya procesamos este código
+        const lastCode = sessionStorage.getItem('last_auth_code');
+        if (lastCode === code) {
+            console.log('Code already processed, redirecting to login');
+            window.location.href = window.location.pathname;
+            return;
+        }
+        
+        // Guardar el código para evitar reprocesarlo
+        sessionStorage.setItem('last_auth_code', code);
         
         // Tenemos código de autorización, intercambiarlo por token
         showScreen('loading-screen');
@@ -75,8 +91,12 @@ async function exchangeToken(code) {
         
     } catch (error) {
         console.error('Error en autenticación:', error);
-        alert('Error al conectar con Strava. Por favor, intenta de nuevo.');
-        showScreen('login-screen');
+        
+        // Limpiar el código usado de sessionStorage
+        sessionStorage.removeItem('last_auth_code');
+        
+        // Limpiar URL y volver a login
+        window.location.href = window.location.pathname;
     }
 }
 
