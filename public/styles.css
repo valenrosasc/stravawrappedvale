@@ -199,6 +199,21 @@ body {
     margin-top: 15px;
 }
 
+.achievement-badge {
+    font-size: 6em;
+    margin: 20px 0;
+    animation: bounce 1s ease-in-out;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
 .summary {
     font-size: 1.5em;
     color: #666;

@@ -228,7 +228,10 @@ function displayWrapped() {
     // Rellenar datos
     document.getElementById('athlete-name').textContent = athleteData.firstname + ' ' + athleteData.lastname;
     document.getElementById('total-activities').textContent = stats.totalActivities.toLocaleString();
-    document.getElementById('total-distance').textContent = stats.totalDistance.toFixed(1).toLocaleString();
+    document.getElementById('total-distance').textContent = stats.totalDistance.toLocaleString('es-ES', { 
+        minimumFractionDigits: 1, 
+        maximumFractionDigits: 1 
+    });
     document.getElementById('total-time').textContent = stats.totalTime.toFixed(0).toLocaleString();
     document.getElementById('total-elevation').textContent = stats.totalElevation.toFixed(0).toLocaleString();
     
@@ -270,12 +273,59 @@ function displayWrapped() {
         document.getElementById('best-month-count').textContent = `${stats.bestMonth.count} actividades`;
     }
     
-    // Resumen final
-    let summary = `¡Increíble! Completaste ${stats.totalActivities} actividades`;
-    if (stats.totalDistance > 1000) {
-        summary += ` y recorriste más de ${Math.floor(stats.totalDistance / 1000)} mil kilómetros`;
+    // Resumen final con sistema de logros
+    const distance = stats.totalDistance;
+    let achievement = {
+        emoji: '🟢',
+        title: '¡Buen comienzo!',
+        message: `Superaste los 100 km este año. Cada kilómetro cuenta 💪`
+    };
+    
+    if (distance >= 5000) {
+        achievement = {
+            emoji: '🟡',
+            title: '¡Élite total!',
+            message: `Más de 5,000 km recorridos. Eres una máquina 💥`
+        };
+    } else if (distance >= 2000) {
+        achievement = {
+            emoji: '🔴',
+            title: '¡Nivel pro!',
+            message: `Superaste los 2,000 km este año. No cualquiera llega hasta aquí 🚀`
+        };
+    } else if (distance >= 1500) {
+        achievement = {
+            emoji: '🟠',
+            title: '¡Impresionante!',
+            message: `1,500 km o más en el año. Disciplina pura 👏`
+        };
+    } else if (distance >= 1000) {
+        achievement = {
+            emoji: '🟣',
+            title: '¡Increíble!',
+            message: `Más de 1,000 km recorridos este año. Ya es un gran logro 🔥`
+        };
+    } else if (distance >= 500) {
+        achievement = {
+            emoji: '🔵',
+            title: '¡Vas con todo!',
+            message: `Recorriste más de 500 km este año. La constancia se nota 🏃`
+        };
     }
-    summary += ` en ${CONFIG.YEAR}. ¡Sigue así!`;
+    
+    document.getElementById('achievement-title').textContent = achievement.title;
+    document.getElementById('achievement-badge').textContent = achievement.emoji;
+    
+    const distanceFormatted = distance.toLocaleString('es-ES', { 
+        minimumFractionDigits: 1, 
+        maximumFractionDigits: 1 
+    });
+    
+    let summary = `¡Increíble! Completaste ${stats.totalActivities} actividades y recorriste ${distanceFormatted} km en ${CONFIG.YEAR}. `;
+    summary += achievement.message.includes('💪') || achievement.message.includes('🏃') ? 
+        '¡Que el próximo año vengan muchos más!' : 
+        '¡Sigue así!';
+    
     document.getElementById('final-summary').textContent = summary;
     
     // Crear dots de navegación
