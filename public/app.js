@@ -276,40 +276,46 @@ function displayWrapped() {
     // Resumen final con sistema de logros
     const distance = stats.totalDistance;
     let achievement = {
-        emoji: '🟢',
-        title: '¡Buen comienzo!',
-        message: `Superaste los 100 km este año. Cada kilómetro cuenta 💪`
+        emoji: '✨',
+        title: '¡Lo importante es moverse!',
+        message: `Este año diste lo mejor de ti, y el próximo puedes superarte aún más ✨`
     };
     
     if (distance >= 5000) {
         achievement = {
-            emoji: '🟡',
-            title: '¡Élite total!',
-            message: `Más de 5,000 km recorridos. Eres una máquina 💥`
+            emoji: '💥',
+            title: '¡Brutal!',
+            message: `Más de 5,000 km recorridos. Eres una máquina, que nada te detenga 💥`
         };
     } else if (distance >= 2000) {
         achievement = {
-            emoji: '🔴',
+            emoji: '🚀',
             title: '¡Nivel pro!',
-            message: `Superaste los 2,000 km este año. No cualquiera llega hasta aquí 🚀`
+            message: `Pasaste los 2,000 km. Tu esfuerzo habla por ti, sigue rompiéndola 🚀`
         };
     } else if (distance >= 1500) {
         achievement = {
-            emoji: '🟠',
+            emoji: '⭐',
             title: '¡Impresionante!',
-            message: `1,500 km o más en el año. Disciplina pura 👏`
+            message: `Más de 1,500 km este año. Estás marcando la diferencia, no te detengas ⭐`
         };
     } else if (distance >= 1000) {
         achievement = {
-            emoji: '🟣',
-            title: '¡Increíble!',
-            message: `Más de 1,000 km recorridos este año. Ya es un gran logro 🔥`
+            emoji: '🔥',
+            title: '¡Excelente!',
+            message: `Superaste los 1,000 km. Demuestra disciplina y ganas, sigue avanzando 🔥`
         };
     } else if (distance >= 500) {
         achievement = {
-            emoji: '🔵',
-            title: '¡Vas con todo!',
-            message: `Recorriste más de 500 km este año. La constancia se nota 🏃`
+            emoji: '🏁',
+            title: '¡Bien hecho!',
+            message: `Más de 500 km recorridos. Tu constancia está pagando, sigue así 🏁`
+        };
+    } else if (distance >= 100) {
+        achievement = {
+            emoji: '👏🏼',
+            title: '¡Buen inicio!',
+            message: `Recorriste más de 100 km este año. Cada kilómetro cuenta, sigue sumando 👏🏼`
         };
     }
     
@@ -321,10 +327,7 @@ function displayWrapped() {
         maximumFractionDigits: 1 
     });
     
-    let summary = `¡Increíble! Completaste ${stats.totalActivities} actividades y recorriste ${distanceFormatted} km en ${CONFIG.YEAR}. `;
-    summary += achievement.message.includes('💪') || achievement.message.includes('🏃') ? 
-        '¡Que el próximo año vengan muchos más!' : 
-        '¡Sigue así!';
+    let summary = `¡Increíble! Completaste ${stats.totalActivities} actividades y recorriste ${distanceFormatted} km en ${CONFIG.YEAR}. ${achievement.message}`;
     
     document.getElementById('final-summary').textContent = summary;
     
