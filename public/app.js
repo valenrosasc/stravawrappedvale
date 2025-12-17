@@ -227,13 +227,17 @@ function displayWrapped() {
     
     // Rellenar datos
     document.getElementById('athlete-name').textContent = athleteData.firstname + ' ' + athleteData.lastname;
-    document.getElementById('total-activities').textContent = stats.totalActivities.toLocaleString();
-    document.getElementById('total-distance').textContent = stats.totalDistance.toLocaleString('es-ES', { 
+    document.getElementById('total-activities').textContent = stats.totalActivities.toLocaleString('es-CO');
+    
+    // Formatear distancia: 1,175.2 km (separador de miles con coma, decimal con punto)
+    const distanceFormatted = stats.totalDistance.toLocaleString('en-US', { 
         minimumFractionDigits: 1, 
         maximumFractionDigits: 1 
     });
-    document.getElementById('total-time').textContent = stats.totalTime.toFixed(0).toLocaleString();
-    document.getElementById('total-elevation').textContent = stats.totalElevation.toFixed(0).toLocaleString();
+    document.getElementById('total-distance').textContent = distanceFormatted;
+    
+    document.getElementById('total-time').textContent = stats.totalTime.toFixed(0).toLocaleString('es-CO');
+    document.getElementById('total-elevation').textContent = stats.totalElevation.toFixed(0).toLocaleString('es-CO');
     
     // Actividad más larga
     document.getElementById('longest-activity').textContent = (stats.longestActivity.distance / 1000).toFixed(1);
@@ -322,12 +326,12 @@ function displayWrapped() {
     document.getElementById('achievement-title').textContent = achievement.title;
     document.getElementById('achievement-badge').textContent = achievement.emoji;
     
-    const distanceFormatted = distance.toLocaleString('es-ES', { 
+    const distanceFormattedFinal = distance.toLocaleString('en-US', { 
         minimumFractionDigits: 1, 
         maximumFractionDigits: 1 
     });
     
-    let summary = `¡Increíble! Completaste ${stats.totalActivities} actividades y recorriste ${distanceFormatted} km en ${CONFIG.YEAR}. ${achievement.message}`;
+    let summary = `¡Increíble! Completaste ${stats.totalActivities} actividades y recorriste ${distanceFormattedFinal} km en ${CONFIG.YEAR}. ${achievement.message}`;
     
     document.getElementById('final-summary').textContent = summary;
     
