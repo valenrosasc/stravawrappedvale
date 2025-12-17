@@ -252,8 +252,8 @@ function displayWrapped() {
     document.getElementById('active-days').textContent = stats.activeDays.size;
     
     // Deporte favorito
-    const sportEmojis = {
-        'Run': '🏃‍♂️',
+    const sportIcons = {
+        'Run': '<img src="https://i.pinimg.com/736x/12/20/17/1220177b7a5aabfe7a49fe0a55b461be.jpg" style="width: auto; height: 120px; transform: rotate(90deg);">',
         'Ride': '🚴‍♂️',
         'Swim': '🏊‍♂️',
         'Walk': '🚶‍♂️',
@@ -266,7 +266,16 @@ function displayWrapped() {
     
     if (stats.favoriteSport) {
         const [sportType, count] = stats.favoriteSport;
-        document.getElementById('favorite-sport').textContent = sportEmojis[sportType] || '🏃‍♂️';
+        const sportElement = document.getElementById('favorite-sport');
+        const icon = sportIcons[sportType] || '🏃‍♂️';
+        
+        if (icon.startsWith('<img')) {
+            sportElement.innerHTML = icon;
+            sportElement.classList.remove('sport-emoji');
+        } else {
+            sportElement.textContent = icon;
+        }
+        
         document.getElementById('favorite-sport-name').textContent = sportType;
         document.getElementById('favorite-sport-count').textContent = `${count} actividades`;
     }
